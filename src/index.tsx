@@ -5,18 +5,23 @@ import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import App from './App'
 import NotFound from './NotFound'
+import { Provider } from 'react-redux'
+import { store } from "./store"
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/active" element={<App />} />
-        <Route path="/completed" element={<App />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/active" element={<App />} />
+          <Route path="/completed" element={<App />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  </Provider>
+  ,
   document.getElementById('root')
 )
 
