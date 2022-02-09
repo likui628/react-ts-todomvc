@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../../../hooks"
-import { reverseTodoAction } from "../../../store"
+import { delTodoAction, reverseTodoAction } from "../../../store"
 import { Todo } from "../../../types"
 
 interface Props {
@@ -19,7 +19,10 @@ const Item: React.FC<Props> = ({ todo }) => {
           onChange={() => dispatch(reverseTodoAction(todo.id))}
         />
         <label>{todo.bodyText}</label>
-        <button className="destroy"></button>
+        <button
+          className="destroy"
+          onClick={() => dispatch(delTodoAction(todo.id))}
+        />
       </div>
       <input className="edit" type="text" />
     </li>

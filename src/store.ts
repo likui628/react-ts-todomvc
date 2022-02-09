@@ -32,6 +32,8 @@ function todoReducer(state = initialState, action: AnyAction) {
           completed: false,
         },
       ]
+    case DEL_TODO:
+      return state.filter((t: Todo) => t.id !== action.payload)
     case TOGGLE_ALL:
       return state.map((t: Todo) => ({ ...t, completed: action.payload }))
     case REVERSE_TODO:
