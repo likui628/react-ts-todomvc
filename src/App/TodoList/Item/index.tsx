@@ -1,3 +1,5 @@
+import { useAppDispatch } from "../../../hooks"
+import { reverseTodoAction } from "../../../store"
 import { Todo } from "../../../types"
 
 interface Props {
@@ -5,6 +7,7 @@ interface Props {
 }
 
 const Item: React.FC<Props> = ({ todo }) => {
+  const dispatch = useAppDispatch()
 
   return (
     <li className={`todo ${todo.completed ? 'completed' : ''}`}>
@@ -13,7 +16,7 @@ const Item: React.FC<Props> = ({ todo }) => {
           className="toggle"
           type="checkbox"
           checked={todo.completed}
-          onChange={() => { }}
+          onChange={() => dispatch(reverseTodoAction(todo.id))}
         />
         <label>{todo.bodyText}</label>
         <button className="destroy"></button>

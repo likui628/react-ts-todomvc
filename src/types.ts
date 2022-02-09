@@ -7,6 +7,7 @@ export interface Todo {
 export const ADD_TODO = 'ADD_TODO'
 export const DEL_TODO = 'DEL_TODO'
 export const TOGGLE_ALL = 'TOGGLE_ALL'
+export const REVERSE_TODO = 'REVERSE_TODO'
 
 export interface AddTodoAction {
   type: typeof ADD_TODO
@@ -23,4 +24,13 @@ export interface ToggleAllAction {
   payload: boolean
 }
 
-export type TodoActionTypes = AddTodoAction | DelTodoAction | ToggleAllAction
+export interface ReverseTodoAction {
+  type: typeof REVERSE_TODO
+  payload: string
+}
+
+export type TodoActionTypes =
+  | AddTodoAction
+  | DelTodoAction
+  | ToggleAllAction
+  | ReverseTodoAction
