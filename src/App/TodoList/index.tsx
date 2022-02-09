@@ -1,15 +1,16 @@
 import React, { ReactElement } from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { toggleAllAction } from '../../store'
-import { Todo } from '../../types'
+import { useRecoilState, } from 'recoil'
+import { Todo, todoState, TodoState } from '../../todo'
 import Item from './Item'
 
 const TodoList: React.FC = () => {
-  const state = useAppSelector((state) => state.todos)
-  const dispatch = useAppDispatch()
+  const [appState, setAppState] = useRecoilState<TodoState>(todoState)
 
   function toggleAll(e: React.ChangeEvent<HTMLInputElement>): void {
-    dispatch(toggleAllAction(e.target.checked))
+    setAppState({
+      todos: appState.todos
+        .map((t: Todo) => ({ ...t, completed: e.target.checked }))
+    })
   }
 
   return (
@@ -23,7 +24,7 @@ const TodoList: React.FC = () => {
       <label htmlFor="toggle-all">Mark all as complete</label>
       <ul className="todo-list">
         {
-          state.map((t: Todo): ReactElement => {
+          appState.todos.map((t: Todo): ReactElement => {
             return <Item key={t.id} todo={t} />
           })
         }

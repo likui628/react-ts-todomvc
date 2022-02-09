@@ -1,13 +1,30 @@
-import { useAppDispatch } from "../../../hooks"
-import { delTodoAction, reverseTodoAction } from "../../../store"
-import { Todo } from "../../../types"
+import { useRecoilState } from "recoil"
+import { Todo, todoState, TodoState } from "../../../todo"
 
 interface Props {
   todo: Todo
 }
 
 const Item: React.FC<Props> = ({ todo }) => {
-  const dispatch = useAppDispatch()
+  const [appState, setAppState] = useRecoilState<TodoState>(todoState)
+
+  function reverseChecked(id: Todo['id']) {
+    setAppState({
+      todos: appState.todos
+        .map((t: Todo) =>
+          t.id === id
+            ? { ...t, completed: !t.completed }
+            : t
+        )
+    })
+  }
+
+  function deleteTodo(id: Todo['id']) {
+    setAppState({
+      todos: appState.todos
+        .filter((t: Todo) => t.id !== id)
+    })
+  }
 
   return (
     <li className={`todo ${todo.completed ? 'completed' : ''}`}>
@@ -16,12 +33,12 @@ const Item: React.FC<Props> = ({ todo }) => {
           className="toggle"
           type="checkbox"
           checked={todo.completed}
-          onChange={() => dispatch(reverseTodoAction(todo.id))}
+          onChange={() => reverseChecked(todo.id)}
         />
         <label>{todo.bodyText}</label>
         <button
           className="destroy"
-          onClick={() => dispatch(delTodoAction(todo.id))}
+          onClick={() => deleteTodo(todo.id)}
         />
       </div>
       <input className="edit" type="text" />

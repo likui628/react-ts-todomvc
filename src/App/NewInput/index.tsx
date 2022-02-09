@@ -1,18 +1,25 @@
 import React, { createRef } from "react"
-import { useAppDispatch } from "../../hooks"
-import { addTodoAction, AppDispatch } from "../../store"
+import { useRecoilState } from "recoil"
+import { Todo, TodoState, todoState } from "../../todo"
+import { UUID } from "../../utils"
 
 function NewInput() {
+  const [appState, setAppState] = useRecoilState<TodoState>(todoState)
   const textInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
-  const dispatch: AppDispatch = useAppDispatch()
+
 
   function addTodo(e: React.KeyboardEvent<HTMLInputElement>) {
     if (textInput.current === null) return
 
     const val = textInput.current.value.trim()
     if (e.key === "Enter" && val.length > 0) {
-      dispatch(addTodoAction(val))
-      
+      const todo: Todo = {
+        id: UUID(),
+        bodyText: textInput.current.value,
+        completed: false,
+      }
+      setAppState({ todos: [todo, ...appState.todos] })
+
       textInput.current.value = ""
     }
   }

@@ -5,12 +5,11 @@ import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import App from './App'
 import NotFound from './NotFound'
-import { Provider } from 'react-redux'
-import { store } from "./store"
+import { RecoilRoot } from 'recoil'
 
 ReactDOM.render(
-  <Provider store={store}>
-    <React.StrictMode>
+  <React.StrictMode>
+    <RecoilRoot>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
@@ -19,8 +18,8 @@ ReactDOM.render(
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </React.StrictMode>
-  </Provider>
+    </RecoilRoot>
+  </React.StrictMode>
   ,
   document.getElementById('root')
 )
