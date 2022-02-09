@@ -1,10 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { AnyAction, configureStore } from '@reduxjs/toolkit'
 import {
   ADD_TODO,
   DEL_TODO,
   REVERSE_TODO,
   Todo,
-  TodoActionTypes,
   TOGGLE_ALL,
 } from './types'
 import { UUID } from './utils'
@@ -22,7 +21,7 @@ export const reverseTodoAction = (payload: string) => ({
   payload,
 })
 
-function todoReducer(state = initialState, action: TodoActionTypes) {
+function todoReducer(state = initialState, action: AnyAction) {
   switch (action.type) {
     case ADD_TODO:
       return [
