@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { ADD_TODO, DEL_TODO, Todo, TodoActionTypes } from './types'
+import { ADD_TODO, DEL_TODO, Todo, TodoActionTypes, TOGGLE_ALL } from './types'
 import { UUID } from './utils'
 
 const initialState: Todo[] = []
 
 export const addTodoAction = (payload: string) => ({ type: ADD_TODO, payload })
 export const delTodoAction = (payload: string) => ({ type: DEL_TODO, payload })
+export const toggleAllAction = (payload: boolean) => ({
+  type: TOGGLE_ALL,
+  payload,
+})
 
 function todoReducer(state = initialState, action: TodoActionTypes) {
   switch (action.type) {
@@ -18,6 +22,8 @@ function todoReducer(state = initialState, action: TodoActionTypes) {
           completed: false,
         },
       ]
+    case TOGGLE_ALL:
+      return state.map((t: Todo) => ({ ...t, completed: action.payload }))
     default:
       return state
   }
