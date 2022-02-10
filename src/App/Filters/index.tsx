@@ -1,8 +1,19 @@
-function Filters() {
+import { useRecoilState } from "recoil"
+import { todoListState } from "../../todo"
+
+const Filters: React.FC = () => {
+  const [todoList, setTodoList] = useRecoilState(todoListState)
+
+  const completedCount = todoList.filter(t => t.completed).length
+
+  function clearCompletd() {
+    setTodoList(todoList.filter(t => !t.completed))
+  }
+
   return (
-    <footer className="footer">
+    <footer className="footer" >
       <span className="todo-count">
-        <strong>1</strong> items left
+        <strong>{todoList.length}</strong> items left
       </span>
       <ul className="filters">
         <li>
@@ -21,8 +32,16 @@ function Filters() {
           </a>
         </li>
       </ul>
-      <button className="clear-completed">Clear completed</button>
-    </footer>
+      {
+        completedCount > 0 &&
+        <button
+          className="clear-completed"
+          onClick={clearCompletd}
+        >
+          Clear completed
+        </button>
+      }
+    </footer >
   )
 }
 
