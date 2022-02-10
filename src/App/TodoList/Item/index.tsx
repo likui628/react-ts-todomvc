@@ -1,3 +1,4 @@
+import React, { useState } from "react"
 import { useRecoilState } from "recoil"
 import { Todo, todoListState } from "../../../todo"
 
@@ -6,10 +7,11 @@ interface Props {
 }
 
 const Item: React.FC<Props> = ({ todo }) => {
-  const [todoList, setAppState] = useRecoilState(todoListState)
+  const [todoList, setTodoList] = useRecoilState(todoListState)
+  const [state, setState] = useState({ onEdit: false })
 
   function reverseChecked(id: Todo['id']) {
-    setAppState(
+    setTodoList(
       todoList.map(
         t => t.id === id
           ? { ...t, completed: !t.completed }
@@ -19,11 +21,29 @@ const Item: React.FC<Props> = ({ todo }) => {
   }
 
   function deleteTodo(id: Todo['id']) {
-    setAppState(todoList.filter((t: Todo) => t.id !== id))
+    setTodoList(todoList.filter((t: Todo) => t.id !== id))
+  }
+
+  function onClick(e: React.MouseEvent) {
+    setState({ onEdit: true })
+  }
+
+  function onBlur() {
+    setState({ onEdit: false })
+  }
+
+  function handleTodoTextEdit({ target: { value } }: React.ChangeEvent<HTMLInputElement>, id: Todo['id']) {
+    setTodoList(
+      todoList.map(
+        t => t.id === id
+          ? { ...t, bodyText: value }
+          : t
+      )
+    )
   }
 
   return (
-    <li className={`todo ${todo.completed ? 'completed' : ''}`}>
+    <li className={`todo ${todo.completed ? 'completed' : ''} ${state.onEdit ? 'editing' : ''}`}>
       <div className="view">
         <input
           className="toggle"
@@ -31,14 +51,22 @@ const Item: React.FC<Props> = ({ todo }) => {
           checked={todo.completed}
           onChange={() => reverseChecked(todo.id)}
         />
-        <label>{todo.bodyText}</label>
+        <label onDoubleClick={onClick}>
+          {todo.bodyText}
+        </label>
         <button
           className="destroy"
           onClick={() => deleteTodo(todo.id)}
         />
       </div>
-      <input className="edit" type="text" />
-    </li>
+      <input
+        className="edit"
+        type="text"
+        value={todo.bodyText}
+        onChange={(e) => handleTodoTextEdit(e, todo.id)}
+        onBlur={onBlur}
+      />
+    </li >
   )
 }
 
