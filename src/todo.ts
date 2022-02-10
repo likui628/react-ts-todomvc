@@ -1,16 +1,14 @@
-import { atom, RecoilState } from 'recoil'
+import { atom } from 'recoil'
+
 export interface Todo {
   id: string
   bodyText: string
   completed: boolean
 }
-export interface TodoState {
-  todos: Todo[]
-}
 
-export const todoState: RecoilState<TodoState> = atom({
-  key: 'todoState',
-  default: {
-    todos: [],
-  } as TodoState,
+export type TodoList = Todo[]
+
+export const todoListState = atom({
+  key: 'todoListState',
+  default: [] as TodoList,
 })

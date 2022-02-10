@@ -1,29 +1,25 @@
 import { useRecoilState } from "recoil"
-import { Todo, todoState, TodoState } from "../../../todo"
+import { Todo, todoListState } from "../../../todo"
 
 interface Props {
   todo: Todo
 }
 
 const Item: React.FC<Props> = ({ todo }) => {
-  const [appState, setAppState] = useRecoilState<TodoState>(todoState)
+  const [todoList, setAppState] = useRecoilState(todoListState)
 
   function reverseChecked(id: Todo['id']) {
-    setAppState({
-      todos: appState.todos
-        .map((t: Todo) =>
-          t.id === id
-            ? { ...t, completed: !t.completed }
-            : t
-        )
-    })
+    setAppState(
+      todoList.map(
+        t => t.id === id
+          ? { ...t, completed: !t.completed }
+          : t
+      )
+    )
   }
 
   function deleteTodo(id: Todo['id']) {
-    setAppState({
-      todos: appState.todos
-        .filter((t: Todo) => t.id !== id)
-    })
+    setAppState(todoList.filter((t: Todo) => t.id !== id))
   }
 
   return (

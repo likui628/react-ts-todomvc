@@ -1,12 +1,11 @@
 import React, { createRef } from "react"
-import { useRecoilState } from "recoil"
-import { Todo, TodoState, todoState } from "../../todo"
+import { useSetRecoilState } from "recoil"
+import { Todo, todoListState } from "../../todo"
 import { UUID } from "../../utils"
 
 function NewInput() {
-  const [appState, setAppState] = useRecoilState<TodoState>(todoState)
+  const setTodoList = useSetRecoilState(todoListState)
   const textInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
-
 
   function addTodo(e: React.KeyboardEvent<HTMLInputElement>) {
     if (textInput.current === null) return
@@ -18,7 +17,7 @@ function NewInput() {
         bodyText: textInput.current.value,
         completed: false,
       }
-      setAppState({ todos: [todo, ...appState.todos] })
+      setTodoList((oldTodoList) => [todo, ...oldTodoList])
 
       textInput.current.value = ""
     }
