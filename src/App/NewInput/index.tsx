@@ -1,26 +1,29 @@
-import React, { createRef } from "react"
+import React, { useState } from "react"
 import { useSetRecoilState } from "recoil"
 import { Todo, todoListState } from "../../todo"
 import { UUID } from "../../utils"
 
 function NewInput() {
   const setTodoList = useSetRecoilState(todoListState)
-  const textInput: React.RefObject<HTMLInputElement> = createRef<HTMLInputElement>()
+  const [inputValue, setInputValue] = useState('')
 
-  function addTodo(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (textInput.current === null) return
+  function addTodoItem(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!inputValue.trim()) return
 
-    const val = textInput.current.value.trim()
-    if (e.key === "Enter" && val.length > 0) {
+    if (e.key === "Enter") {
       const todo: Todo = {
         id: UUID(),
-        bodyText: textInput.current.value,
+        bodyText: inputValue,
         completed: false,
       }
       setTodoList((oldTodoList) => [todo, ...oldTodoList])
 
-      textInput.current.value = ""
+      setInputValue('')
     }
+  }
+
+  function onChange({ target: { value } }: React.ChangeEvent<HTMLInputElement>) {
+    setInputValue(value)
   }
 
   return (
@@ -29,8 +32,9 @@ function NewInput() {
       <input
         className="new-todo"
         placeholder="What needs to be done?"
-        ref={textInput}
-        onKeyPress={(e) => addTodo(e)}
+        value={inputValue}
+        onChange={onChange}
+        onKeyPress={addTodoItem}
       />
     </header>
   )
