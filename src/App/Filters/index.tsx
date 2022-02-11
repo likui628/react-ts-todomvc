@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import { todoListState } from "../../todo"
 
@@ -17,19 +18,25 @@ const Filters: React.FC = () => {
       </span>
       <ul className="filters">
         <li>
-          <a href="#/all" className="selected">
+          <NavLink
+            to="/"
+            className={({ isActive }) => isActive ? "selected" : ''}>
             All
-          </a>
+          </NavLink>
         </li>
         <li>
-          <a href="#/active" className="">
+          <NavLink
+            to="/active"
+            className={({ isActive }) => isActive ? "selected" : ''}>
             Active
-          </a>
+          </NavLink>
         </li>
         <li>
-          <a href="#/completed" className="">
+          <NavLink
+            to="/completed"
+            className={({ isActive }) => isActive ? "selected" : ''}>
             Completed
-          </a>
+          </NavLink>
         </li>
       </ul>
       {

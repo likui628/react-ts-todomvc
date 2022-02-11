@@ -3,7 +3,7 @@ import Filters from './Filters'
 import NewInput from './NewInput'
 import TodoList from './TodoList'
 
-function TodoMVC() {
+const App: React.FC = () => {
   return (
     <>
       <section className="todoapp">
@@ -16,4 +16,4 @@ function TodoMVC() {
   )
 }
 
-export default TodoMVC
+export default App
