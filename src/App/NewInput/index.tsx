@@ -35,6 +35,7 @@ function NewInput() {
         value={inputValue}
         onChange={onChange}
         onKeyPress={addTodoItem}
+        data-testid="new-todo-input-text"
       />
     </header>
   )
