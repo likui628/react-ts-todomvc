@@ -24,14 +24,6 @@ const Item: React.FC<Props> = ({ todo }) => {
     setAppState({ todoList: newVal })
   }
 
-  function onClick(e: React.MouseEvent) {
-    setState({ onEdit: true })
-  }
-
-  function onBlur() {
-    setState({ onEdit: false })
-  }
-
   function handleTodoTextEdit({ target: { value } }: React.ChangeEvent<HTMLInputElement>, id: Todo['id']) {
     const newVal = appState.todoList.map(
       t => t.id === id
@@ -44,7 +36,13 @@ const Item: React.FC<Props> = ({ todo }) => {
     )
   }
 
-  return (
+  function submitEditText(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') {
+      setState({ onEdit: false })
+    }
+  }
+
+  return todo ? (
     <li className={`todo ${todo.completed ? 'completed' : ''} ${state.onEdit ? 'editing' : ''}`}>
       <div className="view">
         <input
@@ -53,7 +51,10 @@ const Item: React.FC<Props> = ({ todo }) => {
           checked={todo.completed}
           onChange={() => reverseChecked(todo.id)}
         />
-        <label onDoubleClick={onClick}>
+        <label
+          data-testid="todo-body-text"
+          onDoubleClick={() => setState({ onEdit: true })}
+        >
           {todo.bodyText}
         </label>
         <button
@@ -66,10 +67,12 @@ const Item: React.FC<Props> = ({ todo }) => {
         type="text"
         value={todo.bodyText}
         onChange={(e) => handleTodoTextEdit(e, todo.id)}
-        onBlur={onBlur}
+        onKeyDown={(e) => submitEditText(e)}
+        onBlur={() => setState({ onEdit: false })}
+        data-testid="todo-edit-input"
       />
     </li >
-  )
+  ) : null
 }
 
 export default Item
