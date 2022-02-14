@@ -19,8 +19,7 @@ ReactDOM.render(
         </Routes>
       </BrowserRouter>
     </RecoilRoot>
-  </React.StrictMode>
-  ,
+  </React.StrictMode>,
   document.getElementById('root')
 )
 

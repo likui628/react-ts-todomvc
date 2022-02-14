@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import { useRecoilState } from "recoil"
-import { recoilState, Todo } from "../../../todo"
+import React, { useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { recoilState, Todo } from '../../../todo'
 
 interface Props {
   todo: Todo
@@ -11,10 +11,8 @@ const Item: React.FC<Props> = ({ todo }) => {
   const [state, setState] = useState({ onEdit: false })
 
   function reverseChecked(id: Todo['id']) {
-    const newVal = appState.todoList.map(
-      t => t.id === id
-        ? { ...t, completed: !t.completed }
-        : t
+    const newVal = appState.todoList.map((t) =>
+      t.id === id ? { ...t, completed: !t.completed } : t
     )
     setAppState({ todoList: newVal })
   }
@@ -24,16 +22,15 @@ const Item: React.FC<Props> = ({ todo }) => {
     setAppState({ todoList: newVal })
   }
 
-  function handleTodoTextEdit({ target: { value } }: React.ChangeEvent<HTMLInputElement>, id: Todo['id']) {
-    const newVal = appState.todoList.map(
-      t => t.id === id
-        ? { ...t, bodyText: value }
-        : t
+  function handleTodoTextEdit(
+    { target: { value } }: React.ChangeEvent<HTMLInputElement>,
+    id: Todo['id']
+  ) {
+    const newVal = appState.todoList.map((t) =>
+      t.id === id ? { ...t, bodyText: value } : t
     )
 
-    setAppState(
-      { todoList: newVal }
-    )
+    setAppState({ todoList: newVal })
   }
 
   function submitEditText(e: React.KeyboardEvent) {
@@ -43,7 +40,11 @@ const Item: React.FC<Props> = ({ todo }) => {
   }
 
   return todo ? (
-    <li className={`todo ${todo.completed ? 'completed' : ''} ${state.onEdit ? 'editing' : ''}`}>
+    <li
+      className={`todo ${todo.completed ? 'completed' : ''} ${
+        state.onEdit ? 'editing' : ''
+      }`}
+    >
       <div className="view">
         <input
           className="toggle"
@@ -57,10 +58,7 @@ const Item: React.FC<Props> = ({ todo }) => {
         >
           {todo.bodyText}
         </label>
-        <button
-          className="destroy"
-          onClick={() => deleteTodo(todo.id)}
-        />
+        <button className="destroy" onClick={() => deleteTodo(todo.id)} />
       </div>
       <input
         className="edit"
@@ -71,7 +69,7 @@ const Item: React.FC<Props> = ({ todo }) => {
         onBlur={() => setState({ onEdit: false })}
         data-testid="todo-edit-input"
       />
-    </li >
+    </li>
   ) : null
 }
 

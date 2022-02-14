@@ -9,23 +9,24 @@ export const wrapWithRecoilRoot = (
 ): React.ReactElement => {
   return (
     <RecoilRoot
-      initializeState={({ set }: MutableSnapshot): void => set(recoilState, initialRecoilStateValue)}
+      initializeState={({ set }: MutableSnapshot): void =>
+        set(recoilState, initialRecoilStateValue)
+      }
     >
       {ui}
-    </ RecoilRoot>
+    </RecoilRoot>
   )
 }
 
 export const wrapWithRouter = (
   ui: React.ReactElement,
-  path: string = ""
+  path: string = ''
 ): React.ReactElement => {
   return (
     <MemoryRouter initialEntries={[`${path}`]}>
       <Routes>
         <Route path="*" element={ui} />
       </Routes>
-    </MemoryRouter  >
+    </MemoryRouter>
   )
 }
-

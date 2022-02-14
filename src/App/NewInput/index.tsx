@@ -1,7 +1,7 @@
-import React, { useState } from "react"
-import { useSetRecoilState } from "recoil"
-import { recoilState, Todo } from "../../todo"
-import { UUID } from "../../utils"
+import React, { useState } from 'react'
+import { useSetRecoilState } from 'recoil'
+import { recoilState, Todo } from '../../todo'
+import { UUID } from '../../utils'
 
 function NewInput() {
   const setAppState = useSetRecoilState(recoilState)
@@ -10,7 +10,7 @@ function NewInput() {
   function addTodoItem(e: React.KeyboardEvent<HTMLInputElement>) {
     if (!inputValue.trim()) return
 
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       const todo: Todo = {
         id: UUID(),
         bodyText: inputValue,
@@ -22,7 +22,9 @@ function NewInput() {
     }
   }
 
-  function onChange({ target: { value } }: React.ChangeEvent<HTMLInputElement>) {
+  function onChange({
+    target: { value },
+  }: React.ChangeEvent<HTMLInputElement>) {
     setInputValue(value)
   }
 

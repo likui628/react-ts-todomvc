@@ -9,10 +9,9 @@ import TodoList from './TodoList'
 const App: React.FC = () => {
   const appState = useRecoilValue(recoilState)
 
-  useEffect(
-    () => { localStorage.setItem(APP_STATE_KEY, JSON.stringify(appState.todoList)) },
-    [appState.todoList]
-  )
+  useEffect(() => {
+    localStorage.setItem(APP_STATE_KEY, JSON.stringify(appState.todoList))
+  }, [appState.todoList])
 
   return (
     <>
