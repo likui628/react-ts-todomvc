@@ -1,12 +1,12 @@
-import { screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithRecoilRoot } from '../../testUtils'
+import { wrapWithRecoilRoot } from '../../testUtils'
 
 import NewInput from './'
 
 describe('NewInput', () => {
   test('should render <NewInput/> correctly', () => {
-    renderWithRecoilRoot(<NewInput />)
+    render(wrapWithRecoilRoot(<NewInput />))
     const input = screen.getByTestId('new-todo-input-text') as HTMLInputElement
 
     screen.getByText('todos')
@@ -16,7 +16,6 @@ describe('NewInput', () => {
     expect(input.value).toBe('something to do')
 
     userEvent.keyboard('[enter]')
-
     expect(input.value).toBe('')
   })
 })
