@@ -15,7 +15,7 @@ const Filters: React.FC = () => {
   return (
     <footer className="footer" >
       <span className="todo-count">
-        <strong>{appState.todoList.length}</strong> items left
+        <strong data-testid="todo-yet-left">{appState.todoList.length}</strong> items left
       </span>
       <ul className="filters">
         <li>
