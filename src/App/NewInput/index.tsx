@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import { useSetRecoilState } from "recoil"
-import { Todo, todoListState } from "../../todo"
+import { recoilState, Todo } from "../../todo"
 import { UUID } from "../../utils"
 
 function NewInput() {
-  const setTodoList = useSetRecoilState(todoListState)
+  const setAppState = useSetRecoilState(recoilState)
   const [inputValue, setInputValue] = useState('')
 
   function addTodoItem(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -16,7 +16,7 @@ function NewInput() {
         bodyText: inputValue,
         completed: false,
       }
-      setTodoList((oldTodoList) => [todo, ...oldTodoList])
+      setAppState((old) => ({ todoList: [todo, ...old.todoList] }))
 
       setInputValue('')
     }

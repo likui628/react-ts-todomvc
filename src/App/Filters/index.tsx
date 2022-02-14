@@ -1,20 +1,21 @@
 import { NavLink } from "react-router-dom"
 import { useRecoilState } from "recoil"
-import { todoListState } from "../../todo"
+import { recoilState } from "../../todo"
 
 const Filters: React.FC = () => {
-  const [todoList, setTodoList] = useRecoilState(todoListState)
+  const [appState, setAppState] = useRecoilState(recoilState)
 
-  const completedCount = todoList.filter(t => t.completed).length
+  const completedCount = appState.todoList.filter(t => t.completed).length
 
   function clearCompletd() {
-    setTodoList(todoList.filter(t => !t.completed))
+    const newVal = appState.todoList.filter(t => !t.completed)
+    setAppState({ todoList: newVal })
   }
 
   return (
     <footer className="footer" >
       <span className="todo-count">
-        <strong>{todoList.length}</strong> items left
+        <strong>{appState.todoList.length}</strong> items left
       </span>
       <ul className="filters">
         <li>

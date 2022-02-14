@@ -1,17 +1,18 @@
 import { useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
-import { APP_STATE_KEY, todoListState } from '../todo'
+import { APP_STATE_KEY, recoilState } from '../todo'
 import Copyright from './Copyright'
 import Filters from './Filters'
 import NewInput from './NewInput'
 import TodoList from './TodoList'
 
 const App: React.FC = () => {
-  const todoList = useRecoilValue(todoListState)
+  const appState = useRecoilValue(recoilState)
 
-  useEffect(() => {
-    localStorage.setItem(APP_STATE_KEY, JSON.stringify(todoList))
-  }, [todoList])
+  useEffect(
+    () => { localStorage.setItem(APP_STATE_KEY, JSON.stringify(appState.todoList)) },
+    [appState.todoList]
+  )
 
   return (
     <>

@@ -1,20 +1,20 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { useRecoilState, } from 'recoil'
-import { todoListState } from '../../todo'
+import { recoilState } from '../../todo'
 import Item from './Item'
 
 const TodoList: React.FC = () => {
-  const [todoList, setAppState] = useRecoilState(todoListState)
+  const [appState, setAppState] = useRecoilState(recoilState)
   const path = useLocation().pathname
 
   function toggleAll(e: React.ChangeEvent<HTMLInputElement>): void {
-    setAppState(
-      todoList.map(
-        t => ({ ...t, completed: e.target.checked }))
-    )
-  }
+    const newVal = appState.todoList
+      .map(t => ({ ...t, completed: e.target.checked }))
 
+    setAppState({ todoList: newVal })
+  }
+  
   return (
     <section className="main">
       <input
@@ -26,7 +26,7 @@ const TodoList: React.FC = () => {
       <label htmlFor="toggle-all">Mark all as complete</label>
       <ul className="todo-list">
         {
-          todoList.filter(t => {
+          appState.todoList.filter(t => {
             switch (path) {
               case '/active':
                 return t.completed === false

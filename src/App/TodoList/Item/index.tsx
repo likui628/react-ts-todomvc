@@ -1,27 +1,27 @@
 import React, { useState } from "react"
 import { useRecoilState } from "recoil"
-import { Todo, todoListState } from "../../../todo"
+import { recoilState, Todo } from "../../../todo"
 
 interface Props {
   todo: Todo
 }
 
 const Item: React.FC<Props> = ({ todo }) => {
-  const [todoList, setTodoList] = useRecoilState(todoListState)
+  const [appState, setAppState] = useRecoilState(recoilState)
   const [state, setState] = useState({ onEdit: false })
 
   function reverseChecked(id: Todo['id']) {
-    setTodoList(
-      todoList.map(
-        t => t.id === id
-          ? { ...t, completed: !t.completed }
-          : t
-      )
+    const newVal = appState.todoList.map(
+      t => t.id === id
+        ? { ...t, completed: !t.completed }
+        : t
     )
+    setAppState({ todoList: newVal })
   }
 
   function deleteTodo(id: Todo['id']) {
-    setTodoList(todoList.filter((t: Todo) => t.id !== id))
+    const newVal = appState.todoList.filter((t: Todo) => t.id !== id)
+    setAppState({ todoList: newVal })
   }
 
   function onClick(e: React.MouseEvent) {
@@ -33,12 +33,14 @@ const Item: React.FC<Props> = ({ todo }) => {
   }
 
   function handleTodoTextEdit({ target: { value } }: React.ChangeEvent<HTMLInputElement>, id: Todo['id']) {
-    setTodoList(
-      todoList.map(
-        t => t.id === id
-          ? { ...t, bodyText: value }
-          : t
-      )
+    const newVal = appState.todoList.map(
+      t => t.id === id
+        ? { ...t, bodyText: value }
+        : t
+    )
+
+    setAppState(
+      { todoList: newVal }
     )
   }
 
