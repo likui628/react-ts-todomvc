@@ -23,3 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('submitTripleTodos', () => {
+  cy.visit('http://localhost:3000/')
+  cy.get('.new-todo')
+    .type('one')
+    .type('{enter}')
+    .type('two')
+    .type('{enter}')
+    .type('three')
+    .type('{enter}')
+})
