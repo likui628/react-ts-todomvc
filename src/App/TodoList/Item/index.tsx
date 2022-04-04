@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, createRef } from 'react'
 import { useRecoilState } from 'recoil'
 import { recoilState, Todo } from '../../../todo'
 
@@ -9,6 +9,7 @@ interface Props {
 const Item: React.FC<Props> = ({ todo }) => {
   const [appState, setAppState] = useRecoilState(recoilState)
   const [state, setState] = useState({ onEdit: false })
+  const editRef = createRef<HTMLInputElement>()
 
   function reverseChecked(id: Todo['id']) {
     const newVal = appState.todoList.map((t) =>
@@ -39,6 +40,14 @@ const Item: React.FC<Props> = ({ todo }) => {
     }
   }
 
+  useEffect(() => {
+    if (state.onEdit === true && editRef.current !== null) {
+      editRef.current.focus()
+      const value = editRef.current.value
+      editRef.current.setSelectionRange(value.length, value.length)
+    }
+  }, [editRef, state.onEdit])
+
   return todo ? (
     <li
       className={`todo ${todo.completed ? 'completed' : ''} ${
@@ -61,6 +70,7 @@ const Item: React.FC<Props> = ({ todo }) => {
         <button className="destroy" onClick={() => deleteTodo(todo.id)} />
       </div>
       <input
+        ref={editRef}
         className="edit"
         type="text"
         value={todo.bodyText}
