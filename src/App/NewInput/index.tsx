@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { createRef, useEffect, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { recoilState, Todo } from '../../todo'
 import { UUID } from '../../utils'
@@ -6,6 +6,7 @@ import { UUID } from '../../utils'
 function NewInput() {
   const setAppState = useSetRecoilState(recoilState)
   const [inputValue, setInputValue] = useState('')
+  const editRef = createRef<HTMLInputElement>()
 
   function addTodoItem(e: React.KeyboardEvent<HTMLInputElement>) {
     if (!inputValue.trim()) return
@@ -28,10 +29,18 @@ function NewInput() {
     setInputValue(value)
   }
 
+  useEffect(() => {
+    if (editRef.current) {
+      editRef.current.focus()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <header className="header">
       <h1>todos</h1>
       <input
+        ref={editRef}
         className="new-todo"
         placeholder="What needs to be done?"
         value={inputValue}
